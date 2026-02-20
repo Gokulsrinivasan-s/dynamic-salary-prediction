@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Salary Benchmarking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(120deg, #667eea, #764ba2);
+            overflow: hidden;
+        }
+
+        /* Floating animated circles */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            animation: float 15s infinite linear;
+        }
+
+        .bubble:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            left: 10%;
+            animation-duration: 20s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            right: 10%;
+            top: 20%;
+            animation-duration: 25s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            left: 40%;
+            bottom: 10%;
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            backdrop-filter: blur(15px);
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 40px;
+            width: 550px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            color: white;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 80px;
+            display: block;
+            margin: 0 auto 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        select[multiple] {
+            height: 110px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: #00c6ff;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #00ffcc;
+        }
+
+        .suggestion {
+            margin-top: 10px;
+            padding: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .note {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Floating bubbles -->
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<div class="main-container">
+    <div class="card">
+
+        <!-- Animated Icon -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+        <h2>Dynamic Salary Predictor</h2>
+
+        <div class="note">Hold CTRL to select multiple skills</div>
+
+        <form action="/predict" method="POST">
+
+            <input type="number" name="Experience_Years" placeholder="Experience Years" required>
+
+            <select name="Education" required>
+                <option value="">Select Education</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="M.Tech">M.Tech</option>
+                <option value="MBA">MBA</option>
+                <option value="M.Sc">M.Sc</option>
+                <option value="PhD">PhD</option>
+                <option value="B.Sc">B.Sc</option>
+            </select>
+
+            <select name="Job_Role" required>
+                <option value="">Select Job Role</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="ML Engineer">ML Engineer</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Cloud Engineer">Cloud Engineer</option>
+                <option value="Business Analyst">Business Analyst</option>
+            </select>
+
+            <select name="Location" required>
+                <option value="">Select Location</option>
+                <option value="Pune">Pune</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+            </select>
+
+            <select name="Industry" required>
+                <option value="">Select Industry</option>
+                <option value="IT">IT</option>
+                <option value="Finance">Finance</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Education">Education</option>
+                <option value="E-commerce">E-commerce</option>
+            </select>
+
+            <select name="Company_Size" required>
+                <option value="">Select Company Size</option>
+                <option value="Startup">Startup</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </select>
+
+            <!-- Multi Select Skills -->
+            <select name="Skills" multiple required>
+                <option value="Python">Python</option>
+                <option value="AWS">AWS</option>
+                <option value="Azure">Azure</option>
+                <option value="Docker">Docker</option>
+                <option value="Kubernetes">Kubernetes</option>
+                <option value="TensorFlow">TensorFlow</option>
+                <option value="Deep Learning">Deep Learning</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Excel">Excel</option>
+                <option value="Tableau">Tableau</option>
+                <option value="C++">C++</option>
+            </select>
+
+            <button type="submit">Predict Salary</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                Predicted Salary: {{ prediction_text }}
+            </div>
+        {% endif %}
+
+        {% if suggestion_text %}
+            <div class="suggestion">
+                {{ suggestion_text }}
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>
